@@ -1,0 +1,19 @@
+@value makerLightGrey,makerGreen,makerWhite,makerBlack from '../../common/colors.css';
+
+.preview{
+    flex-basis: 50%;
+    background-color: makerLightGrey;
+}
+.title{
+    color: makerGreen;
+    text-align: center;
+}
+
+.cards{
+    width: 100%;
+    height: 100%;
+    padding: 0.5em 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
