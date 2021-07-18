@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './card_add_form.module.css';
-import Imgefileinput from '../image_file_input/image_file_input';
 import Button from '../button/button';
 
-const Cardaddform = ({ onAdd }) => {
+const Cardaddform = ({ Fileinput, onAdd }) => {
     const formRef = useRef();
     const nameRef = useRef();
     const companyRef = useRef();
@@ -11,21 +10,29 @@ const Cardaddform = ({ onAdd }) => {
     const titleRef = useRef();
     const emailRef = useRef();
     const messageRef = useRef();
-
+    const [file, setfile] = useState({ fileName: null, fileURL: null });
+    const onFileChange = file => {
+        console.log(file);
+        setfile({
+            fileName: file.name,
+            fileURL: file.url,
+        })
+    }
     const onsubmit = (event) => {
         event.preventDefault();
         const card = {
-            id: Date.now(), //uuid
+            id: Date.now(), //uuid 
             name: nameRef.current.value || "",
             company: companyRef.current.value || "",
             theme: themeRef.current.value,
             title: titleRef.current.value || "",
             email: emailRef.current.value || "",
             message: messageRef.current.value || "",
-            filename: '',
-            fileURL: '',
+            filename: file.fileName || '',
+            fileURL: file.fileURL || '',
         };
         formRef.current.reset();
+        setfile({ fileName: null, fileURL: null });
         onAdd(card);
     };
 
@@ -44,7 +51,7 @@ const Cardaddform = ({ onAdd }) => {
             <input ref={emailRef} className={styles.input} type="text" name="email" placeholder='email' />
             <textarea ref={messageRef} className={styles.textarea} name="message" placeholder='message'></textarea>
             <div className={styles.fileinput}>
-                <Imgefileinput />
+                <Fileinput name={file.fileName} onFileChange={onFileChange} />
             </div>
             <Button name='Add' onClick={onsubmit} />
         </form>
